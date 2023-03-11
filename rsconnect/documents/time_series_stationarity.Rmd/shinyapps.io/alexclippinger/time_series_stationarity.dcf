@@ -1,0 +1,13 @@
+name: time_series_stationarity
+title: time_series_stationarity
+username:
+account: alexclippinger
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8541966
+bundleId: 6946054
+url: https://alexclippinger.shinyapps.io/time_series_stationarity/
+when: 1678552784.07141
+lastSyncTime: 1678552784.07142
+asMultiple: FALSE
+asStatic: FALSE
