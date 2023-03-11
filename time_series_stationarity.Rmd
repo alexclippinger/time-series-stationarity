@@ -1,0 +1,40 @@
+---
+title: "Time-Series Stationarity"
+output: html_document
+date: "2023-03-11"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(magrittr)
+library(dplyr)
+
+source("time_series_data.R")
+source("stationarized_data.R")
+```
+
+Stationarity is a key concept in time series analysis that refers to the statistical properties of a process remaining constant over time. In a stationary time series, the mean, variance, and autocorrelation of the data do not change over time, and the distribution of the data is consistent across different periods. Stationarity is important in time series analysis because it allows us to make reliable predictions about future values based on past observations. There are several tests that can be used to determine whether a time series is stationary, and if it is not, various techniques such as differencing and de-trending can be applied to make it stationary.
+
+```{r}
+time_series_data()
+```
+
+Non-stationarity in time series refers to the violation of the assumptions of stationarity. There are several types of non-stationarity that can occur in time series, including:
+
+1. **Trend non-stationarity**: When a time series has a systematic trend over time, it is said to have trend non-stationarity. This means that the mean of the time series changes over time, making it non-stationary.
+
+2. **Seasonal non-stationarity**: Seasonality refers to the regular patterns that occur at fixed intervals of time, such as daily, weekly, or yearly. If a time series exhibits a seasonal pattern that changes over time, it is said to have seasonal non-stationarity. This means that the variance and autocorrelation of the time series change over time.
+
+3. **Cyclical non-stationarity**: When a time series has cycles or fluctuations that do not repeat at fixed intervals, it is said to have cyclical non-stationarity. This type of non-stationarity can be challenging to detect because the length and amplitude of the cycles can vary over time.
+
+4. **Random non-stationarity**: Random shocks or external factors can also cause non-stationarity in a time series. For example, if a natural disaster or economic crisis occurs, it can cause sudden changes in the mean, variance, and autocorrelation of the time series.
+
+It is essential to identify the type of non-stationarity in a time series before applying any time series analysis techniques to avoid incorrect conclusions or predictions. Various statistical methods can be used to identify and correct different types of non-stationarity in time series, such as differencing, detrending, seasonal adjustment, and filtering.
+
+```{r}
+stationarized_data()
+```
+
+
