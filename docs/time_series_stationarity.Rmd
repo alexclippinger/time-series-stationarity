@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(magrittr)
 library(dplyr)
 
-source("time_series_data.R")
-source("stationarized_data.R")
+source(file.path("..", "time_series_data.R"))
+source(file.path("..", "stationarized_data.R"))
 ```
 
 Stationarity is a key concept in time series analysis that refers to the statistical properties of a process remaining constant over time. In a stationary time series, the mean, variance, and autocorrelation of the data do not change over time, and the distribution of the data is consistent across different periods. Stationarity is important in time series analysis because it allows us to make reliable predictions about future values based on past observations. There are several tests that can be used to determine whether a time series is stationary, and if it is not, various techniques such as differencing and de-trending can be applied to make it stationary.
