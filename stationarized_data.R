@@ -6,6 +6,7 @@ stationarized_data <- function() {
   library(shiny)
   library(plotly)
   library(ggplot2)
+  library(forecast)
   
   start_date <- dateInput("start_date", "Start Date:", value = Sys.Date() - 365)
   end_date <- dateInput("end_date", "End Date:", value = Sys.Date())
@@ -48,7 +49,9 @@ stationarized_data <- function() {
                 br(),
                 plotlyOutput("plot"),
                 br(),
-                plotlyOutput("standardized_plot")
+                plotlyOutput("standardized_plot"),
+                br(),
+                plotlyOutput("acf_plot")
               )
             )
           )
@@ -90,9 +93,10 @@ stationarized_data <- function() {
             value = rnorm(n, mean = 0, sd = seq(1, 10, length.out = n))
           )
         } else if (input$nonstationary_type == "Seasonality") {
+          constant = rnorm(1, mean = 0.5, sd = 0.2)
           ts_data <- data.frame(
             date = seq_date,
-            value = sin(2 * pi * (1:n) / (n / 4)) + rnorm(n, sd = 0.2)
+            value = constant*sin(2 * pi * (1:n) / (n / 4)) + rnorm(n, sd = 0.2)
           )
         } else {
           stop("Cannot create dataframe.")
@@ -115,14 +119,18 @@ stationarized_data <- function() {
           st_data <- data() %>% 
             mutate(value = value - fitted_values)
         } else if (input$solution == "Log Transformation") {
+          # Cannot take a log of value, so first need to make sure the series is positive
+          constant <- 1.1 - min(data()$value)
           st_data <- data() %>% 
-            mutate(value = log(value))
+            mutate(value = log(value+constant))
         } else if (input$solution == "De-seasonalizing") {
           # Decompose the time series and extract seasonality
-          decomp <- stl(data()$value, s.window = "periodic")
-          seasonality <- decomp$time.series[, "seasonal"]
-          st_data <- data() %>% 
-            mutate(value = value - seasonality)
+          ts <- ts(data()$value, frequency = 12)
+          decomp <- stl(ts, s.window = "periodic")
+          # adj_data <- forecast::seasadj(decomp)
+          trend <- decomp$time.series[, "trend"]
+          st_data <- data()
+          st_data$value <- st_data$value - as.numeric(trend)
         } else {
           stop("Cannot transform dataframe.")
         }
@@ -146,7 +154,8 @@ stationarized_data <- function() {
       
       output$acf_plot <- renderPlotly({
         
-        x <- data()$value
+        x <- standardized_data()$value
+        x <- x[!is.na(x)]
         acf <- acf(x = x, plot = FALSE)
         acf_df <- with(acf, data.frame(lag, acf))
         conf.level <- 0.95

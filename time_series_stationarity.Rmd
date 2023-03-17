@@ -1,7 +1,12 @@
 ---
 title: "Time-Series Stationarity"
-output: html_document
+subtitle: "Exploring a basic time-series modeling concept through interactive plots"
+author: "Alex Clippinger"
 date: "2023-03-11"
+output:
+  html_document:
+    theme: paper
+    highlight: tango
 runtime: shiny
 ---
 
@@ -15,26 +20,58 @@ source("time_series_data.R")
 source("stationarized_data.R")
 ```
 
-Stationarity is a key concept in time series analysis that refers to the statistical properties of a process remaining constant over time. In a stationary time series, the mean, variance, and autocorrelation of the data do not change over time, and the distribution of the data is consistent across different periods. Stationarity is important in time series analysis because it allows us to make reliable predictions about future values based on past observations. There are several tests that can be used to determine whether a time series is stationary, and if it is not, various techniques such as differencing and de-trending can be applied to make it stationary.
+# Introduction
+
+**Stationarity** is a key concept in time-series modeling and analysis that refers to the statistical properties of the series remaining constant over time. That is, in a stationary time series, the mean, variance, and autocorrelation of the data do not change over time. Stationarity is important because it allows for more reliable predictions about future values. This is because, for non-stationary data, the model will vary in accuracy for different time periods. If the sample statistics of the data (mean, variance, and autocorrelation) are stationary, then the data can be more accurately estimated at all time periods.
+
+# Non-Stationarity
+
+## Types of Non-Stationarity
+
+While stationarity is defined as constant mean, variance, and autocorrelation, non-stationarity in time series can refer to any violation of these assumptions. Thus, there are several types of non-stationarity that can occur in time series, including:
+
+1. **Trend** non-stationarity: When a time series has a systematic trend over time, it is said to have trend non-stationarity. This means that the mean of the time series changes over time, making it non-stationary.
+
+2. **Unit root/random walk** non-stationarity: A random walk is when a time series contains values of the series in one period that are equal to the value of the series in a previous period plus random error. A random walk with a drift is where the data increases or decreases by a constant amount in each period. This differs from linear trends (1) because those trends are predictable (i.e., trend remains the same) whereas a unit root non-stationary series has an unpredictable trend.
+
+3. **Varying variance** non-stationarity**: Also known as heteroscedasticity, varying variance non-stationarity occurs when the variance of a time series changes over time.
+
+4. **Seasonal** non-stationarity: Seasonality refers to the regular patterns that occur at fixed intervals of time, such as daily, weekly, or yearly. If a time series exhibits a seasonal pattern that changes over time, it is said to have seasonal non-stationarity. This means that the variance and autocorrelation of the time series change over time.
+
+Interact with the plots below to view stationary and different types of non-stationary time series.
 
 ```{r ts_data}
 time_series_data()
 ```
 
-Non-stationarity in time series refers to the violation of the assumptions of stationarity. There are several types of non-stationarity that can occur in time series, including:
+## Stationarity Tests
 
-1. **Trend non-stationarity**: When a time series has a systematic trend over time, it is said to have trend non-stationarity. This means that the mean of the time series changes over time, making it non-stationary.
+There are several tests that can be used to determine whether a time series is stationary. Some of the most common methods include:
 
-2. **Seasonal non-stationarity**: Seasonality refers to the regular patterns that occur at fixed intervals of time, such as daily, weekly, or yearly. If a time series exhibits a seasonal pattern that changes over time, it is said to have seasonal non-stationarity. This means that the variance and autocorrelation of the time series change over time.
+1. (As shown above) Plotting the data and visually assessing/detecting whether the data presents any known properties of non-stationarity. Another visual technique is plotting the autocorrelation function (ACF) plot, which is a bar chart of coefficients of correlation between a time series and it's lagged values. 
 
-3. **Cyclical non-stationarity**: When a time series has cycles or fluctuations that do not repeat at fixed intervals, it is said to have cyclical non-stationarity. This type of non-stationarity can be challenging to detect because the length and amplitude of the cycles can vary over time.
+2. Augmented Dickey-Fuller (ADF) test: A widely used test that checks for the presence of a unit root in the time series. The test looks at the difference between the current observation and the previous observation, and if the difference is significantly different from zero, the series is considered stationary.
 
-4. **Random non-stationarity**: Random shocks or external factors can also cause non-stationarity in a time series. For example, if a natural disaster or economic crisis occurs, it can cause sudden changes in the mean, variance, and autocorrelation of the time series.
+3. Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test: This test is used to determine whether a time series is stationary around a deterministic trend. The test compares the variance of the series against a null hypothesis of a unit root. If the variance is found to be significantly different from the null hypothesis, the series is considered non-stationary.
 
-It is essential to identify the type of non-stationarity in a time series before applying any time series analysis techniques to avoid incorrect conclusions or predictions. Various statistical methods can be used to identify and correct different types of non-stationarity in time series, such as differencing, detrending, seasonal adjustment, and filtering.
+4. Durbin-Watson test: This test is used to check for the presence of autocorrelation in the residuals of a time series model. The test looks at the difference between adjacent residuals and checks whether this difference is significantly different from zero. If the difference is found to be significantly different from zero, the series is considered non-stationary.
+
+In general, stationarity tests are important in time series analysis because they help determine the appropriate modeling technique to use for a given time series. If a time series is found to be non-stationary, appropriate transformations, such as differencing or de-trending, can be applied to make the series stationary and enable more accurate modeling and forecasting.
+
+# Plotting Stationary and Non-Stationary Data
+
+It is essential to identify the type of non-stationarity in a time series before applying any time series analysis techniques to avoid incorrect conclusions or predictions. Various statistical methods can be used to identify and correct different types of non-stationarity in time series, such as differencing, de-trending, seasonal adjustment, and filtering.
+
+The plots below visualize the different types of transformations, which highlights their relevance to the type of non-stationarity present.
 
 ```{r}
 stationarized_data()
 ```
 
+# References
 
+- [NIST Engineering Statistics Handbook](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm)
+
+- [Relevant Stack Overflow Discussion](https://stats.stackexchange.com/questions/19715/why-does-a-time-series-have-to-be-stationary)
+
+- [Statistical Tests to Check Stationarity in Time Series](https://www.analyticsvidhya.com/blog/2021/06/statistical-tests-to-check-stationarity-in-time-series-part-1/#:~:text=Two%20tests%20for%20checking%20the,check%20stationarity%20in%20Time%20Series.)

@@ -93,9 +93,10 @@ time_series_data <- function() {
             value = rnorm(n, mean = 0, sd = seq(1, 10, length.out = n))
           )
         } else if (input$stationarity == "Non-Stationary" & input$nonstationary_type == "Seasonality") {
+          constant = rnorm(1, mean = 0.5, sd = 0.2)
           ts_data <- data.frame(
             date = seq_date,
-            value = sin(2 * pi * (1:n) / (n / 4)) + rnorm(n, sd = 0.2)
+            value = constant*sin(2 * pi * (1:n) / (n / 4)) + rnorm(n, sd = 0.2)
           )
         } else {
           stop("Cannot create dataframe.")

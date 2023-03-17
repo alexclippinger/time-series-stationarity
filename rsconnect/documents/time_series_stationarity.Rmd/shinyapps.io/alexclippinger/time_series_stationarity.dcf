@@ -5,9 +5,9 @@ account: alexclippinger
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8541966
-bundleId: 6946054
+bundleId: 6969325
 url: https://alexclippinger.shinyapps.io/time_series_stationarity/
-when: 1678552784.07141
-lastSyncTime: 1678552784.07142
+when: 1679021768.75122
+lastSyncTime: 1679021768.75125
 asMultiple: FALSE
 asStatic: FALSE
